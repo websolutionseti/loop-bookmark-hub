@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -587,23 +588,23 @@ DATABASE_URL=mariadb://usuario:senha@localhost:3306/favoritos_db`
                     <div className="border rounded-lg p-4">
                       <h5 className="font-medium mb-2">Backup PostgreSQL/Supabase</h5>
                       <code className="text-sm bg-muted px-3 py-2 rounded block">
-                        pg_dump -h seu-host -U postgres -d seu-banco --clean --no-owner --no-privileges > backup.sql
+                        pg_dump -h seu-host -U postgres -d seu-banco --clean --no-owner --no-privileges {"> backup.sql"}
                       </code>
                     </div>
                     
                     <div className="border rounded-lg p-4">
                       <h5 className="font-medium mb-2">Backup MySQL/MariaDB</h5>
                       <code className="text-sm bg-muted px-3 py-2 rounded block">
-                        mysqldump -u usuario -p favoritos_db > backup.sql
+                        mysqldump -u usuario -p favoritos_db {"> backup.sql"}
                       </code>
                     </div>
                     
                     <div className="border rounded-lg p-4">
                       <h5 className="font-medium mb-2">Restauração</h5>
-                      <code className="text-sm bg-muted px-3 py-2 rounded block">
-                        # PostgreSQL: psql -h seu-host -U postgres -d seu-banco < backup.sql<br/>
-                        # MySQL: mysql -u usuario -p favoritos_db < backup.sql
-                      </code>
+                      <div className="text-sm bg-muted px-3 py-2 rounded">
+                        <div># PostgreSQL: psql -h seu-host -U postgres -d seu-banco {"< backup.sql"}</div>
+                        <div># MySQL: mysql -u usuario -p favoritos_db {"< backup.sql"}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
