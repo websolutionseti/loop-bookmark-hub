@@ -1,37 +1,25 @@
 
-import React, { useState } from 'react';
-import { BookmarkProvider } from '@/contexts/BookmarkContext';
-import { BookmarkSidebar } from '@/components/BookmarkSidebar';
-import { BookmarkDetails } from '@/components/BookmarkDetails';
-import { BookmarkModal } from '@/components/BookmarkModal';
-import { useBookmarks } from '@/contexts/BookmarkContext';
+import { BookmarkSidebar } from "@/components/BookmarkSidebar";
+import { BookmarkDetails } from "@/components/BookmarkDetails";
+import { BookmarkModal } from "@/components/BookmarkModal";
+import { Navigation } from "@/components/Navigation";
+import { BookmarkProvider } from "@/contexts/BookmarkContext";
+import { useState } from "react";
 
-const MainContent: React.FC = () => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const { selectedBookmark } = useBookmarks();
+const Index = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleEdit = () => {
-    setIsEditModalOpen(true);
-  };
-
-  return (
-    <div className="h-screen flex bg-background overflow-hidden">
-      <BookmarkSidebar />
-      <BookmarkDetails onEdit={handleEdit} />
-      
-      <BookmarkModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        bookmark={selectedBookmark}
-      />
-    </div>
-  );
-};
-
-const Index: React.FC = () => {
   return (
     <BookmarkProvider>
-      <MainContent />
+      <div className="h-screen flex bg-background">
+        <Navigation />
+        <BookmarkSidebar />
+        <BookmarkDetails onEdit={() => setIsModalOpen(true)} />
+        <BookmarkModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+        />
+      </div>
     </BookmarkProvider>
   );
 };
