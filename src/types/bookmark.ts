@@ -1,4 +1,3 @@
-
 export interface Bookmark {
   id: string;
   title: string;
@@ -9,6 +8,7 @@ export interface Bookmark {
   children?: Bookmark[];
   description?: string;
   tags?: string[];
+  showIcon?: boolean;
   createdAt: Date;
   updatedAt: Date;
   order: number;

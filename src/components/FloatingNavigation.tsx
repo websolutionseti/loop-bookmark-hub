@@ -53,7 +53,7 @@ export const FloatingNavigation: React.FC = () => {
 
   return (
     <div className="fixed top-4 left-4 z-50">
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer open={isOpen} onOpenChange={setIsOpen} direction="left">
         <DrawerTrigger asChild>
           <Button 
             size="icon" 
@@ -64,7 +64,7 @@ export const FloatingNavigation: React.FC = () => {
           </Button>
         </DrawerTrigger>
         
-        <DrawerContent className="h-[80vh]">
+        <DrawerContent className="h-full w-80 left-0 right-auto mt-0 rounded-none">
           <div className="flex flex-col h-full p-4">
             <div className="mb-6 text-center">
               <h2 className="text-xl font-bold bg-gradient-to-r from-loop-purple-400 to-loop-blue-400 bg-clip-text text-transparent">

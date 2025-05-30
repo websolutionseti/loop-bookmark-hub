@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -15,8 +14,6 @@ import {
   Database, 
   Shield, 
   Bell, 
-  Download, 
-  Upload, 
   RefreshCw,
   Save,
   Moon,
@@ -30,6 +27,8 @@ import {
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { FloatingNavigation } from '@/components/FloatingNavigation';
+import { SettingsExport } from '@/components/SettingsExport';
+import { SettingsImport } from '@/components/SettingsImport';
 
 export default function Settings() {
   const [settings, setSettings] = useState({
@@ -87,6 +86,10 @@ export default function Settings() {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 
+  const handleImportSettings = (importedSettings: Record<string, any>) => {
+    setSettings(prev => ({ ...prev, ...importedSettings }));
+  };
+
   const handleSave = () => {
     toast({
       title: "Configurações salvas!",
@@ -95,23 +98,46 @@ export default function Settings() {
   };
 
   const handleReset = () => {
+    setSettings({
+      theme: 'system',
+      darkMode: false,
+      compactMode: false,
+      showIcons: true,
+      showDescriptions: true,
+      animationsEnabled: true,
+      defaultView: 'tree',
+      itemsPerPage: 50,
+      sortBy: 'name',
+      sortOrder: 'asc',
+      showThumbnails: true,
+      gridColumns: 4,
+      autoSaveChanges: true,
+      autoAddToFolder: true,
+      duplicateDetection: true,
+      urlValidation: true,
+      autoFetchTitles: true,
+      autoGenerateTags: false,
+      emailNotifications: true,
+      pushNotifications: false,
+      syncNotifications: true,
+      backupNotifications: true,
+      weeklyReports: false,
+      publicProfile: false,
+      shareStats: false,
+      allowIndexing: false,
+      trackAnalytics: true,
+      autoBackup: true,
+      backupFrequency: 'weekly',
+      keepBackups: 5,
+      cloudSync: false,
+      twoFactorAuth: false,
+      sessionTimeout: 30,
+      logSessions: true,
+      requirePassword: false
+    });
     toast({
       title: "Configurações redefinidas",
       description: "Todas as configurações foram restauradas aos padrões.",
-    });
-  };
-
-  const handleExport = () => {
-    toast({
-      title: "Exportando configurações...",
-      description: "Download será iniciado em breve.",
-    });
-  };
-
-  const handleImport = () => {
-    toast({
-      title: "Importar configurações",
-      description: "Selecione um arquivo de configuração para importar.",
     });
   };
 
@@ -130,14 +156,8 @@ export default function Settings() {
         </div>
 
         <div className="flex justify-end gap-2 mb-6">
-          <Button variant="outline" onClick={handleImport}>
-            <Upload className="w-4 h-4 mr-2" />
-            Importar
-          </Button>
-          <Button variant="outline" onClick={handleExport}>
-            <Download className="w-4 h-4 mr-2" />
-            Exportar
-          </Button>
+          <SettingsImport onImport={handleImportSettings} />
+          <SettingsExport settings={settings} />
           <Button variant="outline" onClick={handleReset}>
             <RefreshCw className="w-4 h-4 mr-2" />
             Restaurar

@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { X, Plus, Folder, Link, Upload } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { X, Plus, Folder, Link, Upload, Eye, EyeOff } from 'lucide-react';
 import { Bookmark } from '@/types/bookmark';
 import { useBookmarks } from '@/contexts/BookmarkContext';
 import { toast } from '@/hooks/use-toast';
@@ -28,6 +29,7 @@ export const BookmarkModal: React.FC<BookmarkModalProps> = ({ isOpen, onClose, b
     parentId: '',
     description: '',
     tags: [] as string[],
+    showIcon: true,
   });
   const [newTag, setNewTag] = useState('');
 
@@ -43,6 +45,7 @@ export const BookmarkModal: React.FC<BookmarkModalProps> = ({ isOpen, onClose, b
         parentId: bookmark.parentId || '',
         description: bookmark.description || '',
         tags: bookmark.tags || [],
+        showIcon: bookmark.showIcon !== false, // Default true se não existir
       });
     } else {
       setFormData({
@@ -53,6 +56,7 @@ export const BookmarkModal: React.FC<BookmarkModalProps> = ({ isOpen, onClose, b
         parentId: '',
         description: '',
         tags: [],
+        showIcon: true,
       });
     }
   }, [bookmark, isOpen]);
@@ -108,6 +112,7 @@ export const BookmarkModal: React.FC<BookmarkModalProps> = ({ isOpen, onClose, b
       parentId: formData.parentId || undefined,
       description: formData.description.trim(),
       tags: formData.tags,
+      showIcon: formData.showIcon,
       order,
     };
 
@@ -232,6 +237,18 @@ export const BookmarkModal: React.FC<BookmarkModalProps> = ({ isOpen, onClose, b
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Label htmlFor="showIcon">Exibir Ícone na Tela</Label>
+              <p className="text-sm text-muted-foreground">Mostrar o ícone do favorito na lista principal</p>
+            </div>
+            <Switch
+              id="showIcon"
+              checked={formData.showIcon}
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, showIcon: checked }))}
+            />
           </div>
 
           <div className="space-y-2">
