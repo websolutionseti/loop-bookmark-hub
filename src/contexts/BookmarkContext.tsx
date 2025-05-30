@@ -73,6 +73,16 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const bookmarks = buildHierarchy(flatBookmarks);
 
+  // Função para selecionar bookmark e notificar sobre recolhimento do drawer
+  const selectBookmark = useCallback((bookmark: Bookmark | null, shouldCollapseDrawer = false) => {
+    setSelectedBookmark(bookmark);
+    
+    // Emite evento customizado para recolher o drawer se necessário
+    if (shouldCollapseDrawer && bookmark) {
+      window.dispatchEvent(new CustomEvent('bookmark-selected', { detail: { bookmark } }));
+    }
+  }, []);
+
   const addBookmark = useCallback((newBookmark: Omit<Bookmark, 'id' | 'createdAt' | 'updatedAt'>) => {
     const bookmark: Bookmark = {
       ...newBookmark,
@@ -146,7 +156,7 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const value: BookmarkContextType = {
     bookmarks,
     selectedBookmark,
-    setSelectedBookmark,
+    setSelectedBookmark: selectBookmark,
     addBookmark,
     updateBookmark,
     deleteBookmark,

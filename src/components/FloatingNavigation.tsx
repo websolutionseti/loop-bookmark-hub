@@ -1,15 +1,27 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, FileText, Database, Settings, User, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
 
 export const FloatingNavigation: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Escuta evento de seleção de bookmark para recolher o drawer
+  useEffect(() => {
+    const handleBookmarkSelected = () => {
+      setIsOpen(false);
+    };
+
+    window.addEventListener('bookmark-selected', handleBookmarkSelected);
+    return () => {
+      window.removeEventListener('bookmark-selected', handleBookmarkSelected);
+    };
+  }, []);
 
   const navigationGroups = [
     {
@@ -41,8 +53,8 @@ export const FloatingNavigation: React.FC = () => {
 
   return (
     <div className="fixed top-4 left-4 z-50">
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild>
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerTrigger asChild>
           <Button 
             size="icon" 
             variant="outline"
@@ -50,18 +62,18 @@ export const FloatingNavigation: React.FC = () => {
           >
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
-        </SheetTrigger>
+        </DrawerTrigger>
         
-        <SheetContent side="left" className="w-80 p-0">
-          <div className="flex flex-col h-full">
-            <div className="p-6 bg-gradient-to-r from-loop-purple-500/10 to-loop-blue-500/10">
+        <DrawerContent className="h-[80vh]">
+          <div className="flex flex-col h-full p-4">
+            <div className="mb-6 text-center">
               <h2 className="text-xl font-bold bg-gradient-to-r from-loop-purple-400 to-loop-blue-400 bg-clip-text text-transparent">
                 📚 Favoritos
               </h2>
               <p className="text-sm text-muted-foreground">Sistema de Gerenciamento</p>
             </div>
 
-            <div className="flex-1 overflow-auto p-4 space-y-6">
+            <div className="flex-1 overflow-auto space-y-6">
               {navigationGroups.map((group, groupIndex) => (
                 <div key={groupIndex} className="space-y-2">
                   <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2">
@@ -87,14 +99,14 @@ export const FloatingNavigation: React.FC = () => {
               ))}
             </div>
 
-            <div className="p-4 border-t bg-muted/20">
-              <div className="text-xs text-muted-foreground text-center">
+            <div className="pt-4 border-t bg-muted/20 text-center">
+              <div className="text-xs text-muted-foreground">
                 v1.0.0 • Sistema de Favoritos
               </div>
             </div>
           </div>
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };

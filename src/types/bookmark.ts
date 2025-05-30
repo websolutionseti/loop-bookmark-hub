@@ -17,7 +17,7 @@ export interface Bookmark {
 export interface BookmarkContextType {
   bookmarks: Bookmark[];
   selectedBookmark: Bookmark | null;
-  setSelectedBookmark: (bookmark: Bookmark | null) => void;
+  setSelectedBookmark: (bookmark: Bookmark | null, shouldCollapseDrawer?: boolean) => void;
   addBookmark: (bookmark: Omit<Bookmark, 'id' | 'createdAt' | 'updatedAt'>) => void;
   updateBookmark: (id: string, updates: Partial<Bookmark>) => void;
   deleteBookmark: (id: string) => void;
