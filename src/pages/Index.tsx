@@ -2,7 +2,7 @@
 import { BookmarkSidebar } from "@/components/BookmarkSidebar";
 import { BookmarkDetails } from "@/components/BookmarkDetails";
 import { BookmarkModal } from "@/components/BookmarkModal";
-import { Navigation } from "@/components/Navigation";
+import { FloatingNavigation } from "@/components/FloatingNavigation";
 import { BookmarkProvider } from "@/contexts/BookmarkContext";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ const Index = () => {
   return (
     <BookmarkProvider>
       <div className="h-screen flex bg-background">
-        <Navigation />
+        <FloatingNavigation />
         <BookmarkSidebar />
         <BookmarkDetails onEdit={() => setIsModalOpen(true)} />
         <BookmarkModal 
